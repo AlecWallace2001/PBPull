@@ -9,13 +9,19 @@ hTime = str(datetime.datetime.utcnow())
 hTime = hTime[:hTime.find(':')]
 #This value currently never changes so that it can run indefinitly.
 rRepeat = True
-#This is the opening and closing for the link HTML file.
-dPath = os.path.join(os.getcwd(), "downloader.exe")
+#This is to run the downloader for TOS RSS feeds. If creating an executable, exchange the 
+#commenting on the two following lines
+#dPath = os.path.join(os.getcwd(), "PBPull_2.0_part_2.exe")
+dPath = os.path.join(os.getcwd(), "PBPull_2.0_part_2.py")
+fPath = ""
 
 
-def mHtmLink(HtmLink):
+def mHtmLink(HtmLink, OHtmlLink = ''):
     openingLines = ['\n<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"', '\n        "http://www.w3.org/TR/html4/loose.dtd">', '\n<html lang="en">', '\n', '\n<head>']
     closingLines = ['\n<title>Photobucket Thumbs</title>', '\n</head>', '\n', '\n<body>', '\nLoading your Library','\n</body>', '\n</html>']
+    if OHtmlLink != '':
+        if os.path.isfile(OHtmlLink) == True:
+            return
     if os.path.isfile(HtmLink)== False:
         myOutputFile = open(HtmLink, 'wb')
         myOutputFile.writelines(openingLines)
@@ -56,6 +62,10 @@ while rRepeat == True:
                 nTime = nTime[:nTime.find(':')]
                 if nTime != hTime:
                     hTime = nTime
+                    if fPath != "":
+                        oPath = fPath
+                    else:
+                        oPath = os.path.join(os.getcwd(), hTime)
                     fPath = os.path.join(os.getcwd(), hTime)
                     if os.path.exists(fPath) == False:
                         os.makedirs(fPath)
@@ -114,8 +124,9 @@ while rRepeat == True:
                             else:
                                 output = open(fName, 'wb')
                                 htmlName = os.path.join(fPath, htmlName)
+                                oHtmlName = os.path.join(oPath, htmlName)
                                 #This creates the link HTML file
-                                mHtmLink(htmlName)
+                                mHtmLink(htmlName, oHtmlName)
                             output.write(imgData)
                             output.close()
                             print fName
