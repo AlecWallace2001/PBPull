@@ -69,8 +69,9 @@ while rRepeat == True:
                     fPath = os.path.join(os.getcwd(), hTime)
                     if os.path.exists(fPath) == False:
                         os.makedirs(fPath)
+                tPath = fPath
                 fNameB = fName
-                fName = os.path.join(fPath, fName)
+                fName = os.path.join(tPath, fName)
                 
                 if hName[:4] == "http":
                     try:
@@ -80,7 +81,7 @@ while rRepeat == True:
                             #I added this name filter to help weed out spammy ebay listing pics. This catches a lot but not all.
                             #To avoid accidentally deleting a win, they are sent to a specific Ebay folder)
                             if len(imgData) == 7883:
-                                tos = os.path.join(os.getcwd(), "TOS")
+                                tos = os.path.join(fPath, "TOS")
                                 if os.path.exists(tos) == False:
                                     os.makedirs(tos)
                                 output = open(os.path.join(tos, fNameB), 'wb')
@@ -88,17 +89,17 @@ while rRepeat == True:
                                 mHtmLink(htmlName)
                                 subprocess.call([dPath, folderN3])
                             elif rName.find("ebay") != -1:
-                                eBay = os.path.join(os.getcwd(), "Ebay")
+                                eBay = os.path.join(fPath, "Ebay")
                                 if os.path.exists(eBay) == False:
                                     os.makedirs(eBay)
                                 output = open(os.path.join(eBay, fNameB), 'wb') 
                             elif rName.find("facebook") != -1:
-                                faceBook = os.path.join(os.getcwd(), "Facebook")
+                                faceBook = os.path.join(fPath, "Facebook")
                                 if os.path.exists(faceBook) == False:
                                     os.makedirs(faceBook)
                                 output = open(os.path.join(faceBook, fNameB), 'wb')
                             elif rName.find("snapsave") != -1:
-                                snapSave = os.path.join(os.getcwd(), "SnapSave")
+                                snapSave = os.path.join(fPath, "SnapSave")
                                 if os.path.exists(snapSave) == False:
                                     os.makedirs(snapSave)
                                 output = open(os.path.join(snapSave, fNameB), 'wb')
@@ -106,7 +107,7 @@ while rRepeat == True:
                                 #This creates the link HTML file
                                 mHtmLink(htmlName)
                             elif rName.find("screenshot") != -1:
-                                screenShot = os.path.join(os.getcwd(), "Screenshot")
+                                screenShot = os.path.join(fPath, "Screenshot")
                                 if os.path.exists(screenShot) == False:
                                     os.makedirs(screenShot)
                                 output = open(os.path.join(screenShot, fNameB), 'wb')
@@ -114,7 +115,7 @@ while rRepeat == True:
                                 #This creates the link HTML file
                                 mHtmLink(htmlName)
                             elif rName.find("snapchat") != -1:
-                                snapChat = os.path.join(os.getcwd(), "SnapChat")
+                                snapChat = os.path.join(Path, "SnapChat")
                                 if os.path.exists(snapChat) == False:
                                     os.makedirs(snapChat)
                                 output = open(os.path.join(snapChat, fNameB), 'wb')
@@ -129,12 +130,13 @@ while rRepeat == True:
                                 mHtmLink(htmlName, oHtmlName)
                             output.write(imgData)
                             output.close()
-                            print fName
                     except:
                         #This exception occurs when the file has been found in the folder. This prevents a flooding of duplicate images
                         #or wasted time downloading one you already have.
                         print "Duplicate Image"
-    except:
+    except exception as e:
         #This is a simple restart in case of any issues. I have come in to find it not running and when checking the log I got errors
         #from HTTP access to simple timeout errors. This catches them all and restarts the application.
+        print e
         print "Fatal Error, Restarting"
+        
