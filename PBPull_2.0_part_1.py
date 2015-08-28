@@ -115,7 +115,7 @@ while rRepeat == True:
                                 #This creates the link HTML file
                                 mHtmLink(htmlName)
                             elif rName.find("snapchat") != -1:
-                                snapChat = os.path.join(Path, "SnapChat")
+                                snapChat = os.path.join(fPath, "SnapChat")
                                 if os.path.exists(snapChat) == False:
                                     os.makedirs(snapChat)
                                 output = open(os.path.join(snapChat, fNameB), 'wb')
