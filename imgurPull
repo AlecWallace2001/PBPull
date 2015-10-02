@@ -12,10 +12,11 @@ url = enterbox("What is the url")
 url.replace(" ", "")
 if len(re.findall("imgur", url)) == 1:
     if url[:7] != "http://":
-        url = "http://"+url
+        if url[:7] != "https:/":
+            url = "http://"+url
     response = urllib2.urlopen(url)
     html = response.read()
-    urlS = re.findall('<a href="//(.*?)" target="_blank">', html)
+    urlS = re.findall('<img src="//(.*?)" alt="" />', html)
     for i in urlS:
         print i
         fName = i[12:]
